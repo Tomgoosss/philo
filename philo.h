@@ -34,11 +34,14 @@ typedef struct s_program
 	pthread_mutex_t	dead_lock;
 	pthread_mutex_t	meal_lock;
 	pthread_mutex_t	write_lock;
+	pthread_mutex_t	forks[200];
 	t_philo			*philos;
 }					t_program;
 
 int check_args(int argc, char **argv);
 int	ft_atoi(const char *nptr);
 int init_all(int argc, char **argv, t_program *program);
+int create_program(t_program *program);
+size_t get_current_time(void);
 
 #endif
