@@ -7,7 +7,11 @@ RM = rm -f
 SRCS =	files/main.c \
 		files/utils.c \
 		files/init.c \
-		files/check_arg.c
+		files/check_arg.c \
+		files/program.c \
+		files/actions.c \
+		files/monitor.c \
+		files/cleanup.c \
 
 OBJS = $(SRCS:.c=.o)
 

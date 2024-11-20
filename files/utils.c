@@ -36,3 +36,22 @@ size_t get_current_time(void)
         return (0);
     return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
+
+void print_status(t_philo *philo, char *status)
+{
+    pthread_mutex_lock(philo->write_lock);
+    if (!*philo->dead)
+        printf("%zu %d %s\n", get_current_time() - philo->start_time, 
+               philo->id, status);
+    pthread_mutex_unlock(philo->write_lock);
+}
+
+int ft_usleep(size_t milliseconds)
+{
+    size_t start;
+
+    start = get_current_time();
+    while ((get_current_time() - start) < milliseconds)
+        usleep(500);
+    return (0);
+}

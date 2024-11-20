@@ -1,26 +1,35 @@
 #include "philo.h"
 
-
 int main(int argc, char **argv)
 {
 	t_program program;
-	pthread_mutex_t	philos[200];
 
-	program.philos = philos;
-	if(check_args(argc, argv) == 1)
+	// Check arguments
+	if (check_args(argc, argv))
+		return (1);
+
+	// Allocate memory for philosophers
+	program.philos = malloc(sizeof(t_philo) * ft_atoi(argv[1]));
+	if (!program.philos)
+		return (1);
+
+	// Initialize program and philosophers
+	if (init_all(argc, argv, &program))
 	{
-		// printf("check args wrong\n");
-		return(0);
+		free(program.philos);
+		return (1);
 	}
-	if(init_all(argc, argv, &program) == 1)
+
+	// Create and run philosopher threads
+	if (create_program(&program))
 	{
-		printf("error init\n");
-		return(1);
+		free(program.philos);
+		return (1);
 	}
-	// if(create_program(&program) == 1)
-	// {
-	// 	printf("some went wrong creating threads\n");
-	// 	return(1);
-	// }
-	return(0);
+
+	// Cleanup mutexes and free memory
+	cleanup_program(&program);
+	free(program.philos);
+
+	return (0);
 }
