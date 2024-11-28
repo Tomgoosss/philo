@@ -40,9 +40,7 @@ size_t get_current_time(void)
 void print_status(t_philo *philo, char *status)
 {
     pthread_mutex_lock(philo->write_lock);
-    if (!*philo->dead)
-        printf("%zu %d %s\n", get_current_time() - philo->start_time, 
-               philo->id, status);
+    printf("%zu %d %s\n", get_current_time() - philo->start_time, philo->id, status);
     pthread_mutex_unlock(philo->write_lock);
 }
 

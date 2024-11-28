@@ -67,5 +67,6 @@ void	*death_monitor(void *arg);
 
 /* cleanup.c */
 void	cleanup_program(t_program *program);
+int	check_simulation_end(t_philo *philo);
 
 #endif

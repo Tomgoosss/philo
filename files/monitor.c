@@ -7,7 +7,6 @@ static int check_all_ate(t_program *program)
 
     if (program->philos[0].num_times_to_eat == -1)
         return (0);
-    
     i = 0;
     finished_eating = 0;
     pthread_mutex_lock(&program->meal_lock);
@@ -18,7 +17,6 @@ static int check_all_ate(t_program *program)
         i++;
     }
     pthread_mutex_unlock(&program->meal_lock);
-    
     if (finished_eating == program->philos[0].num_of_philos)
     {
         pthread_mutex_lock(&program->dead_lock);
@@ -43,7 +41,7 @@ void *death_monitor(void *arg)
         {
             pthread_mutex_lock(&program->meal_lock);
             time = get_current_time() - program->philos[i].last_meal;
-            if (!program->philos[i].eating && time > program->philos[i].time_to_die)
+            if (!program->philos[i].eating && time >= program->philos[i].time_to_die)
             {
                 print_status(&program->philos[i], "died");
                 pthread_mutex_lock(&program->dead_lock);
@@ -53,13 +51,11 @@ void *death_monitor(void *arg)
                 return (NULL);
             }
             pthread_mutex_unlock(&program->meal_lock);
-            
             if (check_all_ate(program))
                 return (NULL);
-                
             i++;
         }
-        usleep(1000);
+        usleep(100);
     }
     return (NULL);
 } 
