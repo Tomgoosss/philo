@@ -17,9 +17,7 @@ int	ft_isdigit(char *str)
 int check_only_num(char **argv)
 {
 	int i;
-	int digit;
 
-	digit = 0;
 	i = 1;
 	while(argv[i])
 	{

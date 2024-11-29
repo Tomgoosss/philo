@@ -14,13 +14,11 @@ int main(int argc, char **argv)
 		free(program.philos);
 		return (1);
 	}
-	// // Create and run philosopher threads
 	if (create_program(&program))
 	{
 		free(program.philos);
 		return (1);
 	}
-	// Cleanup mutexes and free memory
 	cleanup_program(&program);
 	free(program.philos);
 

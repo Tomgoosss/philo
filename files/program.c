@@ -16,8 +16,7 @@ void *philosopher_routine(void *arg)
 
     philo = (t_philo *)arg;
     philo->last_meal = get_current_time();
-    // If only one philosopher, handle special case
-    if (philo->num_of_philos == 1)
+    if (philo->num_of_philos == 1) // one philo
     {
         pthread_mutex_lock(philo->l_fork);
         print_status(philo, "has taken a fork");
