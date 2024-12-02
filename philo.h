@@ -48,17 +48,18 @@ int		check_value_ranges(char **argv);
 int		init_all(int argc, char **argv, t_program *program);
 
 /* utils.c */
-int		ft_atoi(const char *nptr);
+long	ft_atoi(const char *nptr);
 size_t	get_current_time(void);
 void	print_status(t_philo *philo, char *status);
-int		ft_usleep(size_t milliseconds);
+int	ft_usleep2(long int time, t_philo *philo);
+int	ft_usleep(long int time);
 
 /* program.c */
 int		create_program(t_program *program);
 void	*philosopher_routine(void *arg);
 
 /* actions.c */
-int		philo_eat(t_philo *philo);
+void		philo_eat(t_philo *philo);
 int		philo_sleep(t_philo *philo);
 int		philo_think(t_philo *philo);
 

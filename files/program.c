@@ -15,28 +15,29 @@ void *philosopher_routine(void *arg)
     t_philo *philo;
 
     philo = (t_philo *)arg;
+    pthread_mutex_lock(philo->meal_lock);
     philo->last_meal = get_current_time();
-    if (philo->num_of_philos == 1) // one philo
+    pthread_mutex_unlock(philo->meal_lock);
+    if (philo->num_of_philos == 1)
     {
         pthread_mutex_lock(philo->l_fork);
         print_status(philo, "has taken a fork");
-        usleep(100);
+        while (!check_simulation_end(philo))
+            usleep(100);
         pthread_mutex_unlock(philo->l_fork);
         return (NULL);
-    }
-    if (philo->id % 2 == 0)
-        ft_usleep(philo->time_to_eat / 2);
+    }		
+	if (philo->id % 2 == 0)
+		ft_usleep2(philo->time_to_eat / 2, philo);
     while (1)
     {
-        philo_eat(philo);
-        if (check_simulation_end(philo))
-             break ;
-        philo_sleep(philo);
-        if (check_simulation_end(philo))
-                break ;
-        philo_think(philo);
 		if (check_simulation_end(philo))
-            break ;
+			break ;
+        philo_eat(philo);
+		if (check_simulation_end(philo))
+			break ;
+        philo_sleep(philo);
+        philo_think(philo);
     }
     return (NULL);
 }

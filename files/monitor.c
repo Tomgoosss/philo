@@ -41,16 +41,23 @@ void *death_monitor(void *arg)
         {
             pthread_mutex_lock(&program->meal_lock);
             time = get_current_time() - program->philos[i].last_meal;
-            if (!program->philos[i].eating && time >= program->philos[i].time_to_die)
-            {
-                print_status(&program->philos[i], "died");
-                pthread_mutex_lock(&program->dead_lock);
-                program->dead_flag = 1;
-                pthread_mutex_unlock(&program->dead_lock);
-                pthread_mutex_unlock(&program->meal_lock);
-                return (NULL);
-            }
             pthread_mutex_unlock(&program->meal_lock);
+            
+            if (time >= program->philos[i].time_to_die)
+            {
+                pthread_mutex_lock(&program->meal_lock);
+                if (!program->philos[i].eating)
+                {
+                    print_status(&program->philos[i], "died");
+                    pthread_mutex_lock(&program->dead_lock);
+                    program->dead_flag = 1;
+                    pthread_mutex_unlock(&program->dead_lock);
+                    pthread_mutex_unlock(&program->meal_lock);
+                    return (NULL);
+                }
+                pthread_mutex_unlock(&program->meal_lock);
+            }
+            
             if (check_all_ate(program))
                 return (NULL);
             i++;

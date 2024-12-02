@@ -1,4 +1,5 @@
 #include "philo.h"
+#include <limits.h>
 
 int	ft_isdigit(char *str)
 {
@@ -39,12 +40,17 @@ argv[5] = [optional] number_of_times_each_philosopher_must_eat
 int check_value_ranges(char **argv)
 {
 	int i;
-	int value;
+	long value;
 
 	i = 1;
 	while(argv[i])
 	{
 		value = ft_atoi(argv[i]);
+		if (value > INT_MAX)
+		{
+			printf("arg %d exceeds maximum integer value\n", i);
+			return(1);
+		}
 		if(i == 1 && value > 200)
 		{
 			printf("max 200 philo\n");

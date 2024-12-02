@@ -1,10 +1,11 @@
 #include <philo.h>
+#include <limits.h>
 
-int	ft_atoi(const char *nptr)
+long	ft_atoi(const char *nptr)
 {
 	int			i;
 	int			r;
-	long long	result;
+	long		result;
 
 	i = 0;
 	r = 1;
@@ -17,12 +18,11 @@ int	ft_atoi(const char *nptr)
 		i++;
 	while (nptr[i] >= '0' && nptr[i] <= '9')
 	{
-		if (result < 0 && r == -1)
-			return (0);
-		if (result < 0 && r == 1)
-			return (-1);
-		result *= 10;
-		result += nptr[i] - '0';
+		result = result * 10 + (nptr[i] - '0');
+		if (result > INT_MAX && r == 1)
+			return (INT_MAX + 1L);
+		if (result > ((long)INT_MAX + 1) && r == -1)
+			return (INT_MIN - 1L);
 		i++;
 	}
 	return (r * result);
@@ -40,16 +40,36 @@ size_t get_current_time(void)
 void print_status(t_philo *philo, char *status)
 {
     pthread_mutex_lock(philo->write_lock);
-    printf("%zu %d %s\n", get_current_time() - philo->start_time, philo->id, status);
+    if (!check_simulation_end(philo))
+        printf("%zu %d %s\n", get_current_time() - philo->start_time, 
+               philo->id, status);
     pthread_mutex_unlock(philo->write_lock);
 }
 
-int ft_usleep(size_t milliseconds)
+long int	time_now(void)
 {
-    size_t start;
+	struct timeval	now;
 
-    start = get_current_time();
-    while ((get_current_time() - start) < milliseconds)
-        usleep(500);
-    return (0);
+	gettimeofday(&now, NULL);
+	return ((now.tv_sec * 1000) + (now.tv_usec / 1000));
+}
+
+int	ft_usleep(long int time)
+{
+	long int	start_time;
+
+	start_time = time_now();
+	while ((time_now() - start_time) < time)
+		usleep(150);
+	return (1);
+}
+
+int	ft_usleep2(long int time, t_philo *philo)
+{
+	long int	start_time;
+
+	start_time = time_now();
+	while ((time_now() - start_time) < time && !check_simulation_end(philo))
+		usleep(150);
+	return (1);
 }
