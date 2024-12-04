@@ -1,11 +1,23 @@
-#include <philo.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tgoossen <tgoossen@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/03 14:03:21 by tgoossen          #+#    #+#             */
+/*   Updated: 2024/12/04 15:32:12 by tgoossen         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <limits.h>
+#include <philo.h>
 
 long	ft_atoi(const char *nptr)
 {
-	int			i;
-	int			r;
-	long		result;
+	int		i;
+	int		r;
+	long	result;
 
 	i = 0;
 	r = 1;
@@ -28,38 +40,30 @@ long	ft_atoi(const char *nptr)
 	return (r * result);
 }
 
-size_t get_current_time(void)
+long int	get_current_time(void)
 {
-    struct timeval time;
+	struct timeval	time;
 
-    if (gettimeofday(&time, NULL) == -1)
-        return (0);
-    return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
+	if (gettimeofday(&time, NULL) == -1)
+		return (0);
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
-void print_status(t_philo *philo, char *status)
+void	print_status(t_philo *philo, char *status)
 {
-    pthread_mutex_lock(philo->write_lock);
-    if (!check_simulation_end(philo))
-        printf("%zu %d %s\n", get_current_time() - philo->start_time, 
-               philo->id, status);
-    pthread_mutex_unlock(philo->write_lock);
-}
-
-long int	time_now(void)
-{
-	struct timeval	now;
-
-	gettimeofday(&now, NULL);
-	return ((now.tv_sec * 1000) + (now.tv_usec / 1000));
+	pthread_mutex_lock(philo->write_lock);
+	if (!check_simulation_end(philo))
+		printf("%zu %d %s\n", get_current_time() - philo->start_time, philo->id,
+			status);
+	pthread_mutex_unlock(philo->write_lock);
 }
 
 int	ft_usleep(long int time)
 {
 	long int	start_time;
 
-	start_time = time_now();
-	while ((time_now() - start_time) < time)
+	start_time = get_current_time();
+	while ((get_current_time() - start_time) < time)
 		usleep(150);
 	return (1);
 }
@@ -68,8 +72,9 @@ int	ft_usleep2(long int time, t_philo *philo)
 {
 	long int	start_time;
 
-	start_time = time_now();
-	while ((time_now() - start_time) < time && !check_simulation_end(philo))
+	start_time = get_current_time();
+	while ((get_current_time() - start_time)
+		< time && !check_simulation_end(philo))
 		usleep(150);
 	return (1);
 }

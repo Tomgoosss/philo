@@ -1,7 +1,7 @@
 NAME = philo
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I. #-fsanitize=thread -g
+CFLAGS = -Wall -Wextra -Werror -I. -fsanitize=thread -g
 RM = rm -f
 
 SRCS =	files/main.c \

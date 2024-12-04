@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   actions.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tgoossen <tgoossen@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/03 14:02:46 by tgoossen          #+#    #+#             */
+/*   Updated: 2024/12/03 14:02:47 by tgoossen         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 void	update_last_meal_time(t_philo *philo)
@@ -47,17 +59,3 @@ void	philo_eat(t_philo *philo)
 	increment_meals_eaten(philo);
 	put_down_forks(philo);
 }
-
-int philo_sleep(t_philo *philo)
-{
-    print_status(philo, "is sleeping");
-    ft_usleep2(philo->time_to_sleep, philo);
-    // ft_usleep(philo->time_to_sleep);
-    return (0);
-}
-
-int philo_think(t_philo *philo)
-{
-    print_status(philo, "is thinking");
-    return (0);
-} 

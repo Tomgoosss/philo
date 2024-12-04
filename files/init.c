@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tgoossen <tgoossen@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/03 14:03:11 by tgoossen          #+#    #+#             */
+/*   Updated: 2024/12/04 15:32:24 by tgoossen         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
-static void init_philos(t_program *program, char **argv, int argc)
+static void	init_philos(t_program *program, char **argv, int argc)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < ft_atoi(argv[1]))
@@ -29,17 +41,15 @@ static void init_philos(t_program *program, char **argv, int argc)
 	}
 }
 
-int init_all(int argc, char **argv, t_program *program)
+int	init_all(int argc, char **argv, t_program *program)
 {
 	program->dead_flag = 0;
-	
 	if (pthread_mutex_init(&program->dead_lock, NULL) != 0)
 		return (1);
 	if (pthread_mutex_init(&program->meal_lock, NULL) != 0)
 		return (1);
 	if (pthread_mutex_init(&program->write_lock, NULL) != 0)
 		return (1);
-	
 	init_philos(program, argv, argc);
 	return (0);
 }

@@ -1,32 +1,43 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_arg.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tgoossen <tgoossen@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/03 14:02:55 by tgoossen          #+#    #+#             */
+/*   Updated: 2024/12/04 15:31:59 by tgoossen         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
-#include <limits.h>
 
 int	ft_isdigit(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
-		if(str[i] < '0' || str[i] > '9')
-			return(1);
+		if (str[i] < '0' || str[i] > '9')
+			return (1);
 		i++;
 	}
-	return(0);
+	return (0);
 }
 
-int check_only_num(char **argv)
+int	check_only_num(char **argv)
 {
-	int i;
+	int	i;
 
 	i = 1;
-	while(argv[i])
+	while (argv[i])
 	{
-		if(ft_isdigit(argv[i]) == 1)
-			return(1);
+		if (ft_isdigit(argv[i]) == 1)
+			return (1);
 		i++;
 	}
-	return 0;
+	return (0);
 }
 /*
 argv[1] = number_of_philosophers (1-200)
@@ -36,49 +47,48 @@ argv[4] = time_to_sleep (in milliseconds)
 argv[5] = [optional] number_of_times_each_philosopher_must_eat
 */
 
-
-int check_value_ranges(char **argv)
+int	check_value_ranges(char **argv)
 {
-	int i;
-	long value;
+	int		i;
+	long	value;
 
 	i = 1;
-	while(argv[i])
+	while (argv[i])
 	{
 		value = ft_atoi(argv[i]);
 		if (value > INT_MAX)
 		{
 			printf("arg %d exceeds maximum integer value\n", i);
-			return(1);
+			return (1);
 		}
-		if(i == 1 && value > 200)
+		if (i == 1 && value > 200)
 		{
 			printf("max 200 philo\n");
-			return(1);
+			return (1);
 		}
-		if(value <= 0)
+		if (value <= 0)
 		{
 			printf("arg %d to small\n", i);
-			return(1);
+			return (1);
 		}
 		i++;
 	}
-	return(0);
+	return (0);
 }
 
-int check_args(int argc, char **argv)
+int	check_args(int argc, char **argv)
 {
-	if(argc != 5 && argc != 6)
+	if (argc != 5 && argc != 6)
 	{
 		printf("not anoug arg\n");
-		return(1);
+		return (1);
 	}
-	if(check_only_num(argv) == 1)
+	if (check_only_num(argv) == 1)
 	{
 		printf("is not a digit\n");
-		return(1);
+		return (1);
 	}
-	if(check_value_ranges(argv) == 1)
-		return(1);
-	return(0);
+	if (check_value_ranges(argv) == 1)
+		return (1);
+	return (0);
 }

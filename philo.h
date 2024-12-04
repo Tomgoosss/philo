@@ -1,9 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tgoossen <tgoossen@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/04 15:31:40 by tgoossen          #+#    #+#             */
+/*   Updated: 2024/12/04 15:31:41 by tgoossen         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_H
 # define PHILO_H
 
+# include <limits.h>
+# include <pthread.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <pthread.h>
 # include <sys/time.h>
 # include <unistd.h>
 
@@ -39,35 +52,35 @@ typedef struct s_program
 }					t_program;
 
 /* check_args.c */
-int		check_args(int argc, char **argv);
-int		ft_isdigit(char *str);
-int		check_only_num(char **argv);
-int		check_value_ranges(char **argv);
+int					check_args(int argc, char **argv);
+int					ft_isdigit(char *str);
+int					check_only_num(char **argv);
+int					check_value_ranges(char **argv);
 
 /* init.c */
-int		init_all(int argc, char **argv, t_program *program);
+int					init_all(int argc, char **argv, t_program *program);
 
 /* utils.c */
-long	ft_atoi(const char *nptr);
-size_t	get_current_time(void);
-void	print_status(t_philo *philo, char *status);
-int	ft_usleep2(long int time, t_philo *philo);
-int	ft_usleep(long int time);
+long				ft_atoi(const char *nptr);
+long int			get_current_time(void);
+void				print_status(t_philo *philo, char *status);
+int					ft_usleep2(long int time, t_philo *philo);
+int					ft_usleep(long int time);
 
 /* program.c */
-int		create_program(t_program *program);
-void	*philosopher_routine(void *arg);
+int					create_program(t_program *program);
+void				*philosopher_routine(void *arg);
 
 /* actions.c */
-void		philo_eat(t_philo *philo);
-int		philo_sleep(t_philo *philo);
-int		philo_think(t_philo *philo);
+void				philo_eat(t_philo *philo);
+int					philo_sleep(t_philo *philo);
+int					philo_think(t_philo *philo);
 
 /* monitor.c */
-void	*death_monitor(void *arg);
+void				*death_monitor(void *arg);
 
 /* cleanup.c */
-void	cleanup_program(t_program *program);
-int	check_simulation_end(t_philo *philo);
+void				cleanup_program(t_program *program);
+int					check_simulation_end(t_philo *philo);
 
 #endif
