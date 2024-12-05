@@ -6,7 +6,7 @@
 /*   By: tgoossen <tgoossen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 14:03:01 by tgoossen          #+#    #+#             */
-/*   Updated: 2024/12/04 15:32:20 by tgoossen         ###   ########.fr       */
+/*   Updated: 2024/12/05 13:56:12 by tgoossen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	cleanup_program(t_program *program)
 	pthread_mutex_destroy(&program->dead_lock);
 	pthread_mutex_destroy(&program->meal_lock);
 	pthread_mutex_destroy(&program->write_lock);
+	pthread_mutex_destroy(&program->start_lock);
 }
 
 int	philo_sleep(t_philo *philo)

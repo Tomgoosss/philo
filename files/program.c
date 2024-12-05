@@ -6,7 +6,7 @@
 /*   By: tgoossen <tgoossen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 14:03:18 by tgoossen          #+#    #+#             */
-/*   Updated: 2024/12/03 14:03:19 by tgoossen         ###   ########.fr       */
+/*   Updated: 2024/12/05 13:56:01 by tgoossen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	*philosopher_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
+	pthread_mutex_lock(philo->start_lock);
+	pthread_mutex_unlock(philo->start_lock);
 	pthread_mutex_lock(philo->meal_lock);
 	philo->last_meal = get_current_time();
 	pthread_mutex_unlock(philo->meal_lock);
@@ -60,16 +62,28 @@ void	*philosopher_routine(void *arg)
 	return (NULL);
 }
 
+void	set_start_time(t_program *program)
+{
+	int	i;
+
+	program->philos[0].start_time = get_current_time();
+	i = 0;
+	while (i < program->philos[0].num_of_philos)
+	{
+		program->philos[i].start_time = program->philos[0].start_time;
+		i++;
+	}
+}
+
 int	create_program(t_program *program)
 {
 	int			i;
 	pthread_t	monitor;
 
 	i = 0;
-	program->philos[0].start_time = get_current_time();
+	pthread_mutex_lock(program->philos->start_lock);
 	while (i < program->philos[0].num_of_philos)
 	{
-		program->philos[i].start_time = program->philos[0].start_time;
 		if (pthread_create(&program->philos[i].thread, NULL,
 				philosopher_routine, &program->philos[i]) != 0)
 			return (1);
@@ -77,6 +91,8 @@ int	create_program(t_program *program)
 	}
 	if (pthread_create(&monitor, NULL, death_monitor, program) != 0)
 		return (1);
+	set_start_time(program);
+	pthread_mutex_unlock(program->philos->start_lock);
 	pthread_join(monitor, NULL);
 	i = 0;
 	while (i < program->philos[0].num_of_philos)
