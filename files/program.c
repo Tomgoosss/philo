@@ -6,7 +6,7 @@
 /*   By: tgoossen <tgoossen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 14:03:18 by tgoossen          #+#    #+#             */
-/*   Updated: 2024/12/05 13:56:01 by tgoossen         ###   ########.fr       */
+/*   Updated: 2024/12/06 12:15:01 by tgoossen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static void	routine(t_philo *philo)
 			break ;
 		philo_sleep(philo);
 		philo_think(philo);
+		ft_usleep(1);
 	}
 	return ;
 }
